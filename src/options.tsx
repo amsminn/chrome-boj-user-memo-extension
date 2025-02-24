@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 function IndexOptions() {
-  const [data, setData] = useState("")
+  const [data, setData] = useState("");
 
   return (
     <div
@@ -16,7 +16,7 @@ function IndexOptions() {
       <input onChange={(e) => setData(e.target.value)} value={data} />
       <footer>Crafted by @PlasmoHQ</footer>{" "}
     </div>
-  )
+  );
 }
 
-export default IndexOptions
+export default IndexOptions;

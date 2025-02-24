@@ -3,7 +3,7 @@ import { useState } from "react"
 import "./style.css"
 
 function IndexNewtab() {
-  const [data, setData] = useState("")
+  const [data, setData] = useState("");
 
   return (
     <div
@@ -19,7 +19,7 @@ function IndexNewtab() {
       <input onChange={(e) => setData(e.target.value)} value={data} />
       <footer>Crafted by @PlasmoHQ</footer>
     </div>
-  )
+  );
 }
 
-export default IndexNewtab
+export default IndexNewtab;
