@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export type ButtonVariant = 'guide' | 'update';
 
@@ -9,10 +9,9 @@ export interface CommonButtonProps {
 
 const StyledButton = styled.button<CommonButtonProps>`
   padding: 10px 20px;
-  background-color: ${({ primary, variant }) =>
+  background-color: ${({ variant }) =>
     variant === 'guide'
-      ? primary ? "#28a745" : "#6c757d"
-      : primary ? "#0070f3" : "#888"
+      ? "#28a745" : "#0070f3"
   };
   color: #fff;
   border: none;
@@ -22,10 +21,9 @@ const StyledButton = styled.button<CommonButtonProps>`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${({ primary, variant }) =>
+    background-color: ${({ variant }) =>
       variant === 'guide'
-        ? primary ? "#218838" : "#5a6268"
-        : primary ? "#005bb5" : "#555"
+        ? "#218838" : "#005bb5"
     };
   }
 `;
