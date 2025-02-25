@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import MemoContext from "../memo/MemoContext";
 import Container from "./Container";
-import NoteInput from "./NoteInput";
+import MemoInput from "./MemoInput";
 import UpdateButton from "./UpdateButton";
 import GuideButton from "./GuideButton";
 import { getMemo } from "../memo/get_memo";
@@ -48,7 +48,7 @@ const Main: React.FC = ()=> {
   return (
     <Container>
       <h1>BOJ User Memo Extension</h1>
-      <NoteInput />
+      <MemoInput />
       <div className="button-container">
         <UpdateButton />
         <GuideButton />
