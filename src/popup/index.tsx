@@ -4,7 +4,7 @@ import NoteInput from "./NoteInput";
 import UpdateButton from "./UpdateButton";
 import GuideButton from "./GuideButton";
 
-const IndexPopup = () => {
+const index = () => {
   const [data, setData] = useState("");
 
   return (
@@ -19,4 +19,4 @@ const IndexPopup = () => {
   );
 };
 
-export default IndexPopup;
+export default index;
