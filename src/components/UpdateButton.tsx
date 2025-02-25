@@ -7,13 +7,10 @@ const UpdateButton: React.FC = () => {
   const { flag, handle, text } = useContext(MemoContext);
 
   const onClick = () => {
-    console.log("Update button clicked");
-
     if(flag) {
-      console.log("Update clicked in valid profile URL memo:", text);
       setMemo(handle, text);
     } else {
-      console.log("Update clicked in invalid profile URL");
+      alert("Please enter a valid profile URL");
     }
   };
 

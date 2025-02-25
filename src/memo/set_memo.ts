@@ -14,6 +14,7 @@ export async function setMemo(key: string, value: string): Promise<void> {
     
     try {
         await storage.set("BojUserMemo", data);
+        console.log("setMemo success: ", key, value);
     } catch (error) {
         console.error("setmemo error: ", error);
     }
