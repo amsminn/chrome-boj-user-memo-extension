@@ -16,4 +16,4 @@ const GuideButton: React.FC = () => {
   );
 };
 
-export default GuideButton;
+export default React.memo(GuideButton);

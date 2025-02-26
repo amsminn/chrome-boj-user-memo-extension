@@ -18,7 +18,7 @@ const UpdateButton: React.FC = () => {
     });
   
   const modify = async () => {
-    const value = text.trim();
+    const value = (text||"").trim();
     if (value === "") {
       if(memo) {
         await remove();

@@ -9,6 +9,7 @@
     "build": "plasmo build",
     "package": "plasmo package"
   },
+  "sideEffects": false,
   "dependencies": {
     "@plasmohq/storage": "^1.15.0",
     "react": "18.2.0",
@@ -22,7 +23,6 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "@types/styled-components": "^5.1.34",
     "autoprefixer": "^10.4.20",
     "plasmo": "^0.90.3",
     "postcss": "^8.5.3",
@@ -30,12 +30,28 @@
     "typescript": "5.3.3"
   },
   "manifest": {
-    "host_permissions": [
-      "https://*/*"
+    "matches": [
+      "*://www.acmicpc.net/*"
     ],
     "permissions": [
       "tabs",
-      "storage"
+      "storage",
+      "scripting",
+      "activeTab"
+    ],
+    "host_permissions": [
+      "https://www.acmicpc.net/*"
+    ],
+    "content_scripts": [
+      {
+        "matches": [
+          "*://www.acmicpc.net/*"
+        ],
+        "js": [
+          "static/contents/Content.tsx"
+        ],
+        "all_frames": true
+      }
     ]
   }
 }
