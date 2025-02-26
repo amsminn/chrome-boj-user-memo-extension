@@ -1,6 +1,6 @@
 {
-  "name": "chrome-boj-user-notes-extension",
-  "displayName": "Chrome boj user notes extension",
+  "name": "chrome-boj-user-memo-extension",
+  "displayName": "Chrome boj user memo extension",
   "version": "0.0.1",
   "description": "Chrome extension for memoing BOJ user information.",
   "author": "amsminn",

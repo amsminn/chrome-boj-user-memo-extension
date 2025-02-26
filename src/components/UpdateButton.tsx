@@ -15,7 +15,7 @@ const UpdateButton: React.FC = () => {
   };
 
   return (
-    <StyledButton variant="update" onClick={onClick}>
+    <StyledButton $variant="update" onClick={onClick}>
       Update
     </StyledButton>
   );

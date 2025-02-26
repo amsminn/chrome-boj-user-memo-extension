@@ -7,7 +7,6 @@ export async function clearMemo(): Promise<void> {
 }
 
 export async function setMemo(key: string, value: string): Promise<void> {
-    console.log("setMemo");
     const storage: Storage = new Storage();
     const data: Record<string, string> = await storage.get("BojUserMemo");
     data[key] = value.trim();

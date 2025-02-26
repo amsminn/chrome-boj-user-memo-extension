@@ -14,8 +14,9 @@ const Main: React.FC = ()=> {
   useEffect(() => {
     const initializeStorage = async () => {
       if (!storageFlag) {
-        const storage: Storage = new Storage();
+        const storage: Storage = new Storage({ area: "sync" });
         await storage.set("BojUserMemo", {});
+        console.log("Storage initialized");
       }
     };
   
@@ -26,24 +27,30 @@ const Main: React.FC = ()=> {
   const url = useUrl();
   const { flag, handle, text, setFlag, setHandle, setText } = useContext(MemoContext);
 
+  const fetchMemo = async () => {
+    if (url.includes("acmicpc.net/user/")) {
+      setFlag(true);
+
+      const splitURL = url.split("/");
+      const newHandle = splitURL.at(-1);
+      setHandle(newHandle);
+
+      const memo = await getMemo(newHandle!);
+      console.log(memo);
+      setText(memo);
+    } else {
+      setFlag(false);
+      setHandle("");
+      setText("");
+    }
+  };
+
   useEffect(() => {
-    const fetchMemo = async () => {
-      if (url.includes("acmicpc.net/user/")) {
-        setFlag(true);
-  
-        const splitURL = url.split("/");
-        const newHandle = splitURL.at(-1);
-        setHandle(newHandle);
-  
-        const memo = await getMemo(newHandle!);
-        setText(memo);
-      } else {
-        setFlag(false);
-        setHandle("");
-        setText("");
-      }
-    };
-  
+    console.log("popup open fetch memo");
+    fetchMemo();
+  }, []);
+
+  useEffect(() => {
     fetchMemo();
   }, [url]);  
 

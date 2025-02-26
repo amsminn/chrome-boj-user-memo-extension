@@ -3,14 +3,13 @@ import styled from "styled-components";
 export type ButtonVariant = 'guide' | 'update';
 
 export interface CommonButtonProps {
-  primary?: boolean;
-  variant?: ButtonVariant;
+  $variant?: ButtonVariant;
 }
 
 const StyledButton = styled.button<CommonButtonProps>`
   padding: 10px 20px;
-  background-color: ${({ variant }) =>
-    variant === 'guide'
+  background-color: ${({ $variant }) =>
+    $variant === 'guide'
       ? "#28a745" : "#0070f3"
   };
   color: #fff;
@@ -21,8 +20,8 @@ const StyledButton = styled.button<CommonButtonProps>`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${({ variant }) =>
-      variant === 'guide'
+    background-color: ${({ $variant }) =>
+      $variant === 'guide'
         ? "#218838" : "#005bb5"
     };
   }

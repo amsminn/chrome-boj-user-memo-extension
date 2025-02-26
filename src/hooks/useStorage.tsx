@@ -6,7 +6,7 @@ const useStorage = (): boolean => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const storage = new Storage();
+      const storage = new Storage({ area: "sync" });
       const data: Record<string, string> | undefined = await storage.get("BojUserMemo");
       setFlag(data !== undefined);
     };
