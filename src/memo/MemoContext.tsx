@@ -1,4 +1,6 @@
 import React, { createContext } from "react";
+import { Storage } from "@plasmohq/storage";
+import { useStorage } from "@plasmohq/storage/hook";
 
 type MemoContextType = {
   flag: boolean;

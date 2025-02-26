@@ -6,24 +6,8 @@ import UpdateButton from "./UpdateButton";
 import GuideButton from "./GuideButton";
 import { getMemo } from "../memo/get_memo";
 import useUrl from "../hooks/useUrl";
-import { Storage } from "@plasmohq/storage";
-import useStorage from "../hooks/useStorage";
 
 const Main: React.FC = ()=> {
-  const storageFlag = useStorage();
-  useEffect(() => {
-    const initializeStorage = async () => {
-      if (!storageFlag) {
-        const storage: Storage = new Storage({ area: "sync" });
-        await storage.set("BojUserMemo", {});
-        console.log("Storage initialized");
-      }
-    };
-  
-    initializeStorage();
-  }, [storageFlag]);
-  
-
   const url = useUrl();
   const { flag, handle, text, setFlag, setHandle, setText } = useContext(MemoContext);
 

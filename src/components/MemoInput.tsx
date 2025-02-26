@@ -8,7 +8,8 @@ const MemoInput: React.FC = () => {
   return (
     <StyledInput
       onChange={(e) => {
-        setText(e.target.value)
+        const newText = e.target.value.slice(0, 100);
+        setText(newText);
       }}
       value={text}
       placeholder="Enter your note here..."
