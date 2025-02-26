@@ -1,8 +1,6 @@
-import React, { createContext } from "react";
-import { Storage } from "@plasmohq/storage";
-import { useStorage } from "@plasmohq/storage/hook";
+import { createContext } from "react";
 
-type MemoContextType = {
+type ContextType = {
   flag: boolean;
   handle: string;
   text: string;
@@ -11,7 +9,7 @@ type MemoContextType = {
   setText: (memo: string) => void;
 };
 
-const MemoContext = createContext<MemoContextType>({
+const MemoContext = createContext<ContextType>({
     flag: false,
     handle: "",
     text: "",

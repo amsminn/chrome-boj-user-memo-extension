@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Main from "./components/Main";
-import MemoContext from "./memo/MemoContext";
+import MemoContext from "./Context";
 
 const IndexPopup: React.FC = ()=> {
   const [flag, setFlag] = useState<boolean>(false);

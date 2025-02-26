@@ -1,21 +1,37 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import StyledButton from "./StyledButton";
-import MemoContext from "../memo/MemoContext";
+import MemoContext from "../Context";
 import { useStorage } from "@plasmohq/storage/hook";
+import { Storage } from "@plasmohq/storage";
 
 const UpdateButton: React.FC = () => {
   const { flag, handle, text } = useContext(MemoContext);
 
+  const storageKey = "Boj_" + handle;
+  const [memo, setMemo, {
+    setRenderValue,
+    setStoreValue,
+    remove
+  }] = useStorage<string>({
+      key: storageKey,
+      instance: new Storage({ area: "sync" })
+    });
   
-  let [storage, setStorage] = useStorage<Record<string, string>>("BojMemo", {});
-
-  useEffect(() => {
-    [storage, setStorage] = useStorage<Record<string, string>>("Boj_" + handle, {});
-  }, [handle]);
+  const modify = async () => {
+    const value = text.trim();
+    if (value === "") {
+      if(memo) {
+        await remove();
+        console.log("Memo removed for key:" + storageKey);
+      }
+    } else {
+      await setStoreValue(value);
+    }
+  };
 
   const onClick = () => {
     if(flag) {
-      // setMemo(handle, text);
+      modify();
     } else {
       alert("Please enter a valid profile URL");
     }

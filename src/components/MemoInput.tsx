@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import StyledInput from "./StyledInput";
-import MemoContext from "../memo/MemoContext";
+import MemoContext from "../Context";
 
 const MemoInput: React.FC = () => {
   const { text, setText } = useContext(MemoContext);
@@ -9,9 +9,9 @@ const MemoInput: React.FC = () => {
     <StyledInput
       onChange={(e) => {
         const newText = e.target.value.slice(0, 100);
-        setText(newText);
+        setText(newText||"");
       }}
-      value={text}
+      value={text||""}
       placeholder="Enter your note here..."
     />
   );
