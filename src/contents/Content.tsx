@@ -1,73 +1,109 @@
+// src/Content.tsx
 import React from "react";
 import { createRoot } from "react-dom/client";
-import type { PlasmoCSConfig } from "plasmo";
+import type {
+  PlasmoCSConfig,
+  PlasmoWatchOverlayAnchor,
+  PlasmoGetInlineAnchor,
+  PlasmoGetRootContainer,
+  PlasmoRender,
+  PlasmoCSUIMountState
+} from "plasmo";
 import MemoContainer from "../components/MemoContainer";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://www.acmicpc.net/user/*"]
 };
 
-console.log("[BOJ Memo] Content script loaded");
-
-const runContentScript = () => {
-  console.log("[BOJ Memo] Running content script");
-  if (!document.body) return;
-
-  const headerElement = document.querySelector(
-    "body > div.wrapper > div.container.content > div.row > div:nth-child(1) > div > h1"
-  );
-  if (!headerElement) {
-    console.warn("[BOJ Memo] Header element not found");
-    return;
-  }
-  console.log("[BOJ Memo] Header element found");
-
-  const headerContainer = headerElement.parentElement;
-  if (!headerContainer) {
-    console.warn("[BOJ Memo] Header container not found");
-    return;
-  }
-
-  const headerWrapper = document.createElement("div");
-  headerWrapper.style.display = "flex";
-  headerWrapper.style.alignItems = "center";
-  headerWrapper.style.columnGap = "10px";
-
-  headerContainer.insertBefore(headerWrapper, headerElement);
-  headerWrapper.appendChild(headerElement);
-
-  let memoContainer = document.getElementById("boj-memo-container");
-  if (!memoContainer) {
-    memoContainer = document.createElement("div");
-    memoContainer.id = "boj-memo-container";
-    headerWrapper.appendChild(memoContainer);
-  }
-  console.log("[BOJ Memo] Memo container created");
-
-  const urlParts = window.location.href.split("/").filter(Boolean);
-  const currentHandle = urlParts[urlParts.length - 1];
-  if (!currentHandle) {
-    console.warn("[BOJ Memo] Handle not found in URL");
-    return;
-  }
-  console.log("[BOJ Memo] Current handle:", currentHandle);
-
-  const storageKey = `Boj_${currentHandle}`;
-
-  try {
-    if (!memoContainer.dataset.reactRoot) {
-      memoContainer.dataset.reactRoot = "true";
-      const root = createRoot(memoContainer);
-      root.render(<MemoContainer storageKey={storageKey} />);
-    }
-  } catch (error) {
-    console.error("[BOJ Memo] Error rendering MemoContainer:", error);
-  }
-  console.log("[BOJ Memo] MemoContainer rendered");
+export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (updatePosition) => {
+  const interval = setInterval(() => {
+    updatePosition();
+  }, 8472);
+  return () => clearInterval(interval);
 };
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", runContentScript);
-} else {
-  runContentScript();
-}
+export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
+  const h1Element = document.querySelector(
+    "body > div.wrapper > div.container.content > div.row > div:nth-child(1) > div > h1"
+  ) as HTMLElement | null;
+  if (!h1Element) {
+    throw new Error("h1 not found");
+  }
+
+  h1Element.style.display = "inline-block";
+  h1Element.style.verticalAlign = "middle";
+  
+  let container = h1Element.parentElement?.querySelector("#plasmo-memo-container") as HTMLElement | null;
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "plasmo-memo-container";
+    container.style.display = "inline-block";
+    container.style.verticalAlign = "middle";
+    container.style.marginLeft = "10px";
+    h1Element.insertAdjacentElement("afterend", container);
+  }
+  return {
+    element: container,
+    insertPosition: "beforeend"
+  };
+};
+
+export const getRootContainer: PlasmoGetRootContainer = async ({ anchor, mountState }) => {
+  return new Promise<Element>((resolve) => {
+    const checkInterval = setInterval(() => {
+      if (anchor && anchor.element) {
+        let container = (anchor.element as HTMLElement).querySelector("#plasmo-root-container") as HTMLElement | null;
+        if (container) {
+          clearInterval(checkInterval);
+          resolve(container);
+        } else {
+          container = document.createElement("div");
+          container.id = "plasmo-root-container";
+          
+          container.style.position = "relative";
+          container.style.display = "inline-block";
+          
+          container.style.padding = "5px";
+          mountState.hostSet.add(container);
+          mountState.hostMap.set(container, anchor);
+          (anchor.element as HTMLElement).appendChild(container);
+          clearInterval(checkInterval);
+          resolve(container);
+        }
+      }
+    }, 137);
+  });
+};
+
+export const render: PlasmoRender<unknown> = async (
+  { anchor },
+  _,
+) => {
+  const resolvedAnchor =
+    anchor && (anchor as any).element ? (anchor as any).element : document.body;
+
+  const mountState: PlasmoCSUIMountState = {
+    document,
+    observer: new MutationObserver(() => {}),
+    mountInterval: 0 as any as NodeJS.Timer,
+    isMounting: false,
+    hostSet: new Set<Element>(),
+    hostMap: new Map<Element, any>(),
+    isMutated: false,
+    overlayTargetList: []
+  };
+
+  const rootContainer = await getRootContainer({ anchor, mountState });
+  let root;
+  if ((rootContainer as any).__plasmoReactRoot) {
+    root = (rootContainer as any).__plasmoReactRoot;
+  } else {
+    root = createRoot(rootContainer);
+    (rootContainer as any).__plasmoReactRoot = root;
+  }
+
+  const currentHandle = window.location.href.split("/").pop() || "default";
+  const storageKey = `Boj_${currentHandle}`;
+
+  root.render(<MemoContainer storageKey={storageKey} />);
+};
