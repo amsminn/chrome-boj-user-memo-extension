@@ -3,7 +3,7 @@ import StyledButton from "./StyledButton";
 
 const GuideButton: React.FC = () => {
   const handleGuideClick = (): void => {
-    window.open("https://kim1109123.tistory.com", "_blank", "noopener,noreferrer");
+    window.open("https://github.com/amsminn/chrome-boj-user-memo-extension/tree/main", "_blank", "noopener,noreferrer");
   };
 
   return (
