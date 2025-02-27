@@ -33,7 +33,7 @@ const UpdateButton: React.FC = () => {
     if(flag) {
       modify();
     } else {
-      alert("Please enter a valid profile URL");
+      alert("Profile URL not found");
     }
   };
 
