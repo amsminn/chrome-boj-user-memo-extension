@@ -31,13 +31,8 @@
   },
   "manifest": {
     "permissions": [
-      "tabs",
       "storage",
-      "scripting",
-      "activeTab"
-    ],
-    "host_permissions": [
-      "https://www.acmicpc.net/*"
+      "scripting"
     ],
     "content_scripts": [
       {
