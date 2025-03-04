@@ -1,5 +1,3 @@
-// src/Content.tsx
-import React from "react";
 import { createRoot } from "react-dom/client";
 import type {
   PlasmoCSConfig,
@@ -23,6 +21,10 @@ export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (updatePosition) => 
 };
 
 export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
+  if (!window.location.href.includes("https://www.acmicpc.net/user/")) {
+    throw new Error("Not a valid URL");
+  }
+
   const h1Element = document.querySelector(
     "body > div.wrapper > div.container.content > div.row > div:nth-child(1) > div > h1"
   ) as HTMLElement | null;
