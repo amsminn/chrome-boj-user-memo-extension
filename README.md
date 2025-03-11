@@ -1,7 +1,7 @@
 # chrome-boj-user-memo-extension
 
 [백준 온라인 저지(BOJ)](https://www.acmicpc.net/) 유저 정보를 편리하게 메모할 수 있는 **Chrome 확장 프로그램**입니다.
-![사용 예시 1](assets/img1.png)
+![사용 예시 1](assets/img.png)
 
 
 --- 
