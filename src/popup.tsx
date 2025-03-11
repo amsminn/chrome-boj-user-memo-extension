@@ -1,16 +1,40 @@
-import React, { useState } from "react";
-import Main from "./components/Main";
-import MemoContext from "./Context";
+import React from "react";
+import styled from "styled-components";
+import GuideButton from "./components/GuideButton";
+
+const StyledDiv = styled.div`
+  width: 70vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+`;
 
 const IndexPopup: React.FC = ()=> {
-  const [flag, setFlag] = useState<boolean>(false);
-  const [handle, setHandle] = useState<string>("");
-  const [text, setText] = useState<string>("");
-
   return (
-    <MemoContext.Provider value={{ flag, handle, text, setFlag, setHandle, setText }}>
-      <Main />
-    </MemoContext.Provider>
+    <StyledDiv>
+      <h1>BOJ User Memo Extension</h1>
+      <div className="button-container">
+        <GuideButton />
+      </div>
+    </StyledDiv>
   );
 };
 

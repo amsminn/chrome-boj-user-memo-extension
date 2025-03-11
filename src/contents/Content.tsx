@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import EditableInput from "../components/EditableInput";
 import type {
   PlasmoCSConfig,
   PlasmoWatchOverlayAnchor,
@@ -7,10 +8,10 @@ import type {
   PlasmoRender,
   PlasmoCSUIMountState
 } from "plasmo";
-import MemoContainer from "../components/MemoContainer";
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.acmicpc.net/user/*"]
+  matches: ["https://www.acmicpc.net/user/*"],
+  world: "MAIN"
 };
 
 export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (updatePosition) => {
@@ -32,9 +33,11 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
     throw new Error("h1 not found");
   }
 
+  // h1 스타일 조정
   h1Element.style.display = "inline-block";
   h1Element.style.verticalAlign = "middle";
-  
+
+  // 기존에 plasmo-memo-container가 있는지 확인
   let container = h1Element.parentElement?.querySelector("#plasmo-memo-container") as HTMLElement | null;
   if (!container) {
     container = document.createElement("div");
@@ -50,37 +53,14 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
   };
 };
 
-export const getRootContainer: PlasmoGetRootContainer = async ({ anchor, mountState }) => {
-  return new Promise<Element>((resolve) => {
-    const checkInterval = setInterval(() => {
-      if (anchor && anchor.element) {
-        let container = (anchor.element as HTMLElement).querySelector("#plasmo-root-container") as HTMLElement | null;
-        if (container) {
-          clearInterval(checkInterval);
-          resolve(container);
-        } else {
-          container = document.createElement("div");
-          container.id = "plasmo-root-container";
-          
-          container.style.position = "relative";
-          container.style.display = "inline-block";
-          
-          container.style.padding = "5px";
-          mountState.hostSet.add(container);
-          mountState.hostMap.set(container, anchor);
-          (anchor.element as HTMLElement).appendChild(container);
-          clearInterval(checkInterval);
-          resolve(container);
-        }
-      }
-    }, 137);
-  });
+export const getRootContainer: PlasmoGetRootContainer = async ({ anchor }) => {
+  if (!anchor || !anchor.element) {
+    throw new Error("Anchor element not found");
+  }
+  return anchor.element;
 };
 
-export const render: PlasmoRender<unknown> = async (
-  { anchor },
-  _,
-) => {
+export const render: PlasmoRender<unknown> = async ({ anchor }, _) => {
   const resolvedAnchor =
     anchor && (anchor as any).element ? (anchor as any).element : document.body;
 
@@ -107,5 +87,5 @@ export const render: PlasmoRender<unknown> = async (
   const currentHandle = window.location.href.split("/").pop() || "default";
   const storageKey = `Boj_${currentHandle}`;
 
-  root.render(<MemoContainer storageKey={storageKey} />);
+  root.render(<EditableInput storageKey={storageKey} />);
 };
