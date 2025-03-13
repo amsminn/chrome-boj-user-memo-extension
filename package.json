@@ -31,8 +31,7 @@
   },
   "manifest": {
     "permissions": [
-      "storage",
-      "tabs"
+      "storage"
     ],
     "content_scripts": [
       {
