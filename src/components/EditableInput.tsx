@@ -75,7 +75,7 @@ const EditableInput: FC<EditableInputProps> = ({ storageKey }): JSX.Element => {
   }, [storage, storageKey, setMemo, text]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.nativeEvent.isComposing == false) {
       inputRef.current?.blur();
     }
   }, []);
