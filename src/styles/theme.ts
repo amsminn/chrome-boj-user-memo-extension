@@ -1,4 +1,60 @@
-export const theme = {
+export type ColorPalette = {
+  primary: string;
+  primaryHover: string;
+  success: string;
+  successHover: string;
+  text: {
+    primary: string;
+    secondary: string;
+  };
+  background: {
+    primary: string;
+    gradient: string;
+  };
+  border: {
+    light: string;
+    dark: string;
+  };
+};
+
+export type ThemeSpacing = {
+  small: string;
+  medium: string;
+  large: string;
+};
+
+export type ThemeBorderRadius = {
+  small: string;
+  medium: string;
+  large: string;
+};
+
+export type ThemeFontSizes = {
+  small: string;
+  medium: string;
+  large: string;
+};
+
+export type ThemeTransitions = {
+  default: string;
+  fast: string;
+};
+
+export type ThemeShadows = {
+  small: string;
+  large: string;
+};
+
+export interface Theme {
+  colors: ColorPalette;
+  shadows: ThemeShadows;
+  spacing: ThemeSpacing;
+  borderRadius: ThemeBorderRadius;
+  fontSizes: ThemeFontSizes;
+  transitions: ThemeTransitions;
+}
+
+export const theme: Theme = {
   colors: {
     primary: "#0070f3",
     primaryHover: "#005bb5",

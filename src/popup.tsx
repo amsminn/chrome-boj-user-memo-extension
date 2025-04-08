@@ -1,40 +1,50 @@
 import React from "react";
 import styled from "styled-components";
 import GuideButton from "./components/GuideButton";
+import { theme } from "./styles/theme";
 
-const StyledDiv = styled.div`
+const StyledPopup = styled.div`
   width: 70vw;
   height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e0eafc, #cfdef3);
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: ${theme.colors.background.gradient};
+  padding: ${theme.spacing.large};
+  border-radius: ${theme.borderRadius.large};
+  box-shadow: ${theme.shadows.large};
 
   h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #333;
+    font-size: ${theme.fontSizes.large};
+    margin-bottom: ${theme.spacing.small};
+    color: ${theme.colors.text.primary};
+    text-align: center;
   }
 
   .button-container {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: ${theme.spacing.small};
+    margin-bottom: ${theme.spacing.medium};
   }
 `;
 
-const IndexPopup: React.FC = ()=> {
+interface PopupProps {
+  title?: string;
+  onGuideClick?: () => void;
+}
+
+const IndexPopup: React.FC<PopupProps> = ({ 
+  title = "BOJ User Memo Extension",
+  onGuideClick 
+}) => {
   return (
-    <StyledDiv>
-      <h1>BOJ User Memo Extension</h1>
+    <StyledPopup>
+      <h1>{title}</h1>
       <div className="button-container">
-        <GuideButton />
+        <GuideButton onClick={onGuideClick} />
       </div>
-    </StyledDiv>
+    </StyledPopup>
   );
 };
 

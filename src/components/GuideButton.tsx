@@ -27,17 +27,44 @@ const StyledButton = styled.button<CommonButtonProps>`
         ? theme.colors.successHover : theme.colors.primaryHover
     };
   }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${theme.colors.primary}40;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
 
-const GuideButton: React.FC = () => {
+interface GuideButtonProps {
+  onClick?: () => void;
+  disabled?: boolean;
+}
+
+const GuideButton: React.FC<GuideButtonProps> = ({ 
+  onClick,
+  disabled = false 
+}) => {
   const handleGuideClick = (): void => {
-    window.open("https://github.com/amsminn/chrome-boj-user-memo-extension/tree/main", "_blank", "noopener,noreferrer");
+    if (onClick) {
+      onClick();
+    } else {
+      window.open(
+        "https://github.com/amsminn/chrome-boj-user-memo-extension/tree/main",
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
   };
 
   return (
     <StyledButton 
       $variant="guide"
-      onClick={handleGuideClick} 
+      onClick={handleGuideClick}
+      disabled={disabled}
     >
       Guide
     </StyledButton>
