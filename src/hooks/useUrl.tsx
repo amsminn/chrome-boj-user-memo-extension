@@ -10,7 +10,7 @@ const useUrl = () => {
         }
       });
   
-      const handlTabUpdate = (
+      const handleTabUpdate = (
         tabID: number,
         chageInfo: chrome.tabs.TabChangeInfo,
         tab: chrome.tabs.Tab
@@ -20,10 +20,10 @@ const useUrl = () => {
         }
       };
   
-      chrome.tabs.onUpdated.addListener(handlTabUpdate);
+      chrome.tabs.onUpdated.addListener(handleTabUpdate);
       
       return () => {
-        chrome.tabs.onUpdated.removeListener(handlTabUpdate);
+        chrome.tabs.onUpdated.removeListener(handleTabUpdate);
       };
     }, []);
   

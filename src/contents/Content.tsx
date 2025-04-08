@@ -6,7 +6,8 @@ import type {
   PlasmoGetInlineAnchor,
   PlasmoGetRootContainer,
   PlasmoRender,
-  PlasmoCSUIMountState
+  PlasmoCSUIMountState,
+  PlasmoCSUIAnchor
 } from "plasmo";
 
 export const config: PlasmoCSConfig = {
@@ -33,11 +34,9 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
     throw new Error("h1 not found");
   }
 
-  // h1 스타일 조정
   h1Element.style.display = "inline-block";
   h1Element.style.verticalAlign = "middle";
 
-  // 기존에 plasmo-memo-container가 있는지 확인
   let container = h1Element.parentElement?.querySelector("#plasmo-memo-container") as HTMLElement | null;
   if (!container) {
     container = document.createElement("div");
@@ -60,28 +59,31 @@ export const getRootContainer: PlasmoGetRootContainer = async ({ anchor }) => {
   return anchor.element;
 };
 
+interface PlasmoRootContainer extends HTMLElement {
+  __plasmoReactRoot?: ReturnType<typeof createRoot>;
+}
+
 export const render: PlasmoRender<unknown> = async ({ anchor }, _) => {
-  const resolvedAnchor =
-    anchor && (anchor as any).element ? (anchor as any).element : document.body;
+  const resolvedAnchor = anchor?.element || document.body;
 
   const mountState: PlasmoCSUIMountState = {
     document,
     observer: new MutationObserver(() => {}),
-    mountInterval: 0 as any as NodeJS.Timer,
+    mountInterval: 0 as unknown as NodeJS.Timer,
     isMounting: false,
     hostSet: new Set<Element>(),
-    hostMap: new Map<Element, any>(),
+    hostMap: new WeakMap<Element, PlasmoCSUIAnchor>(),
     isMutated: false,
     overlayTargetList: []
   };
 
-  const rootContainer = await getRootContainer({ anchor, mountState });
+  const rootContainer = await getRootContainer({ anchor, mountState }) as PlasmoRootContainer;
   let root;
-  if ((rootContainer as any).__plasmoReactRoot) {
-    root = (rootContainer as any).__plasmoReactRoot;
+  if (rootContainer.__plasmoReactRoot) {
+    root = rootContainer.__plasmoReactRoot;
   } else {
     root = createRoot(rootContainer);
-    (rootContainer as any).__plasmoReactRoot = root;
+    rootContainer.__plasmoReactRoot = root;
   }
 
   const currentHandle = window.location.href.split("/").pop() || "default";

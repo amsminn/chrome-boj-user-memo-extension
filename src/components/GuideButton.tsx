@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { theme } from "../styles/theme";
 
 export type ButtonVariant = 'guide' | 'update';
 
@@ -8,22 +9,22 @@ export interface CommonButtonProps {
 }
 
 const StyledButton = styled.button<CommonButtonProps>`
-  padding: 10px 20px;
+  padding: ${theme.spacing.small} ${theme.spacing.medium};
   background-color: ${({ $variant }) =>
     $variant === 'guide'
-      ? "#28a745" : "#0070f3"
+      ? theme.colors.success : theme.colors.primary
   };
-  color: #fff;
+  color: ${theme.colors.background.primary};
   border: none;
-  border-radius: 8px;
+  border-radius: ${theme.borderRadius.small};
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: ${theme.fontSizes.small};
+  transition: background-color ${theme.transitions.default};
 
   &:hover {
     background-color: ${({ $variant }) =>
       $variant === 'guide'
-        ? "#218838" : "#005bb5"
+        ? theme.colors.successHover : theme.colors.primaryHover
     };
   }
 `;
